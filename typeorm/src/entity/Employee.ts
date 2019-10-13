@@ -13,6 +13,9 @@ export class Employee {
     @Column()
     email: string;
 
+    @Column("text")
+    password;
+
     @OneToMany(type => Appointment, appointment => appointment.employee)
     appointments: Appointment[];
 

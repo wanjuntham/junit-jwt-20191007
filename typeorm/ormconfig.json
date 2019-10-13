@@ -1,9 +1,9 @@
 {
    "type": "mssql",
    "host": "localhost",
-   "username": "mingxiangchan",
-   "password": "123123",
-   "database": "appointments",
+   "username": "wanjun23",
+   "password": "junjun23",
+   "database": "appointments_test",
    "synchronize": true,
    "logging": false,
    "entities": [

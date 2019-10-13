@@ -1,6 +1,6 @@
 package learning.appointmentapp.entities;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.springframework.data.annotation.Transient;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "employees")
@@ -23,8 +29,13 @@ public class Employee {
     @Column(name = "email")
     private String email;
 
+    @Transient
+    @Column(name = "password")
+    private String password;
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "employee")
-    private Set<Appointment> appointments;
+    private List<Appointment> appointments;
 
     public Long getId() {
         return this.id;
@@ -50,12 +61,23 @@ public class Employee {
         this.email = email;
     }
 
-    public Set<Appointment> getAppointments() {
+    public List<Appointment> getAppointments() {
         return this.appointments;
     }
 
-    public void setAppointments(Set<Appointment> appointments) {
+    public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    
+    public String getPassword() {
+        return this.password;
+    }
+
+    
+    public void setPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
     }
 
 }

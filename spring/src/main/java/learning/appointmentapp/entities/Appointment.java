@@ -11,6 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "appointments")
 public class Appointment {
@@ -21,10 +30,13 @@ public class Appointment {
     @Column(name = "timeslot")
     private LocalDateTime timeslot;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+
+    
     public Employee getEmployee() {
         return this.employee;
     }
@@ -41,6 +53,10 @@ public class Appointment {
         this.id = id;
     }
 
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     public LocalDateTime getTimeslot() {
         return this.timeslot;
     }
